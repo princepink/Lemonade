@@ -3,6 +3,9 @@ namespace Pearlpuppy\Lemonade;
 
 /**
  *  @file   PQueue
+ *  @package    Lemonade
+ *  @since  2016-12-01 (ver. 0.0.0)
+ *  @update 2025-
  */
 
 /**
