@@ -8,8 +8,6 @@ namespace Pearlpuppy\Lemonade;
  *  @update 2025-
  */
 
-use Pearlpuppy\Tailor;
-
 /**
  *  Static library for Lemonade
  */
@@ -21,12 +19,7 @@ class Navel
     /**
      *
      */
-    use Tailor\AntiInstancy;
-
-    /**
-     *
-     */
-    use HypreLime;
+    use Umbilical;
 
     // Constants
 
@@ -92,8 +85,12 @@ class Navel
     // Constructor
 
     /**
-     *
+     *  This library class does not construct instances
      */
+    private function __construct()
+    {
+        // STATIC USE ONLY
+    }
 
     // Methods
 

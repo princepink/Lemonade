@@ -11,7 +11,7 @@ namespace Pearlpuppy\Lemonade;
 /**
  *
  */
-abstract class Citron extends \ArrayObject implements PQueue
+abstract class Citron extends \ArrayObject implements PQueue, Generable
 {
 
     // Mixins
@@ -19,7 +19,7 @@ abstract class Citron extends \ArrayObject implements PQueue
     /**
      *
      */
-    use Citric;
+    use Citric, Genic;
 
     // Constants
 
@@ -48,33 +48,25 @@ abstract class Citron extends \ArrayObject implements PQueue
     /**
      *
      */
-    public array $attributes;
+    public array|Cidre $attributes;
 
     // Constructor
 
     /**
      *  A standard construction
      */
-    public function __construct(array|string|PQueue $contents = [], string $tag = self::DEFTAG, array|string $classes = [], array $attrs = [])
+    public function __construct(mixed $contents = [], string $tag = self::DEFTAG, array|string $classes = [], array $attrs = [])
     {
+        $this->assign();
         $this->assignTag($tag);
         // $this->assignAttrs($attrs, $classes);
         $this->attr($attrs);
         $this->addClass($classes);
         $this->fairContents($contents);
         parent::__construct($contents);
-        $this->assign();
     }
 
     // Methods
-
-    /**
-     *
-     */
-    public function getGenerator(): \Generator
-    {
-        yield from $this;
-    }
 
     /**
      *
@@ -83,9 +75,54 @@ abstract class Citron extends \ArrayObject implements PQueue
     {
         static $i = 0;
         $this->index = $i;
+        $this->attributes = new Cidre($i);
         $this->attr('data-lmntid', "pq-$i");
         self::$elements[$i++] = $this;
     }
+
+    /**
+     *
+     *  @abstracted ArrayObject
+     *  @see    https://www.php.net/manual/en/arrayobject.offsetset.php
+     */
+    public function offsetSet(mixed $key, mixed $value): void
+    {
+        if (!$key && !$value) {
+            return;
+        }
+        if (!$key && is_array($value)) {
+            foreach ($value as $subkey => $subval) {
+                if (is_int($subkey)) {
+                    $this[] = $subval;
+                } else {
+                    $this[$subkey] = $subval;
+                }
+            }
+            return;
+        }
+        $this->fairContent($value);
+        parent::{__FUNCTION__}($key, $value);
+    }
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
 
     /**
      *
