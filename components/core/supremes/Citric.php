@@ -120,14 +120,14 @@ trait Citric
             return;
         // filter
         } elseif (is_callable($val_or_func)) {
-            $this->addClass(call_user_func($val_or_func, $this->index, $this->attributes['classes']));
+            $this->addClass(call_user_func($val_or_func, $this->index, $this->attribution['classes']));
             return;
         }
         // set
-        $this->attributes['classes'][] = $val_or_func;
+        $this->attribution['classes'][] = $val_or_func;
         // final clean
-        $this->attributes['classes'] = array_unique($this->attributes['classes']);
-        $this->fairClasses($this->attributes['classes']);
+        $this->attribution['classes'] = array_unique($this->attribution['classes']);
+        $this->fairClasses($this->attribution['classes']);
         return;
     }
 
@@ -144,7 +144,7 @@ trait Citric
             foreach ($name_or_map as $subname => $subval) {
                 $this->attr($subname, $subval);
             }
-            // $this->attributes = array_merge($this->attributes, $name_or_map);
+            // $this->attribution = array_merge($this->attribution, $name_or_map);
             return true;
         // validate
         } elseif (!preg_match(Navel::PAT_ATTRNAME, $name_or_map)) {
@@ -154,16 +154,16 @@ trait Citric
             $name_or_map .= 'es';
         // provide value
         } elseif ($val_or_func == self::FLAG_GET) {
-            return $this->attributes[$name_or_map] ?? false;
+            return $this->attribution[$name_or_map] ?? false;
         }
         // del
         if (is_null($val_or_func)) {
-            unset($this->attributes[$name_or_map]);
+            unset($this->attribution[$name_or_map]);
             return true;
         }
         // filter
         if (is_callable($val_or_func)) {
-            $existval = $this->attributes[$name_or_map] ?? null;
+            $existval = $this->attribution[$name_or_map] ?? null;
             $res = call_user_func($val_or_func, $this->index, $existval);
             if (is_callable($res)) {       // prevent infinite loop
                 return false;
@@ -177,7 +177,7 @@ trait Citric
             return true;
         }
         // set
-        $this->attributes[$name_or_map] = $val_or_func;
+        $this->attribution[$name_or_map] = $val_or_func;
         return true;
     }
 
@@ -186,7 +186,8 @@ trait Citric
      */
     public function hasAttr(string $name): bool
     {
-        return array_key_exists($name, $this->attributes);
+        return $this->attribution->offsetExists($name);
+        // return array_key_exists($name, $this->attribution);
     }
 
     /**
@@ -204,7 +205,7 @@ trait Citric
         $values = array(
             $this->tag,
             $this->tribal(),
-            // Navel::tribe($this->attributes),
+            // Navel::tribe($this->attribution),
         );
         if (!$is_emp) {
             $content = '';
@@ -274,7 +275,7 @@ trait Citric
     private function tribal()
     {
         $attr = '';
-        foreach ($this->attributes as $key => $val) {
+        foreach ($this->attribution as $key => $val) {
             if ($key == 'classes') {
                 $key = substr($key, 0, -2);
             }

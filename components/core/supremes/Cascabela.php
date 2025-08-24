@@ -88,7 +88,7 @@ abstract class Cascabela extends Citron
             return $unique ? null : [];
         }
         // sweep
-        $selector = str_replace($matches[0], '', $selector);
+        // $selector = str_replace($matches[0], '', $selector);
         // plastic and fin
         $substance = $matches[1];
         if ($unit == self::SLU_ATTR) {
@@ -106,7 +106,7 @@ abstract class Cascabela extends Citron
         $attrs = [];
         foreach ($rare_attrs as $r_attr) {
             $chopped = explode('=', $r_attr, 2);
-            $attrs[$chopped[0]] = $chopped[1] ?? null;
+            $attrs[$chopped[0]] = $chopped[1] ?? '';
         }
     }
 

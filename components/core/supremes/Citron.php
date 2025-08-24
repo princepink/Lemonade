@@ -48,7 +48,7 @@ abstract class Citron extends \ArrayObject implements PQueue, Generable
     /**
      *
      */
-    public array|Cidre $attributes;
+    public Cidre $attribution;
 
     // Constructor
 
@@ -75,7 +75,7 @@ abstract class Citron extends \ArrayObject implements PQueue, Generable
     {
         static $i = 0;
         $this->index = $i;
-        $this->attributes = new Cidre($i);
+        $this->attribution = new Cidre($i);
         $this->attr('data-lmntid', "pq-$i");
         self::$elements[$i++] = $this;
     }

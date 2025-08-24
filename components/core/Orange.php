@@ -56,7 +56,7 @@ class Orange extends Citron
         // parent::__construct($contents, $tag, $classes, $attrs);
 
         // $this->tag = $this->clean_tag($tag);
-        // $this->attributes = $this->clean_attrs($classes, $attrs);
+        // $this->attribution = $this->clean_attrs($classes, $attrs);
         // $this->content = $this->cleanContent($contents);
 
     }
