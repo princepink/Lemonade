@@ -1,19 +1,21 @@
 <?php
 namespace Pearlpuppy\Lemonade;
 
-use Pearlpuppy\
-{
-    Herald\Tribune,
-};
-
 /**
- * @file
- */
-
-/**
+ *  @file   Umbilical
+ *  @package    Lemonade
+ *  @since  2016-12-01
+ *  @update 2025-
  *
+ *  f.k.a. HypreLime
+ *  (August 2025) This file has replaced HyperLime which being referred by other packages
+ *      Mainly the members being used in Navel are remaining here
  */
-trait HypreLime {
+
+/**
+ *  Members for Navel -- could be referred by other packages
+ */
+trait Umbilical {
 
     // Properties
 
@@ -40,7 +42,7 @@ trait HypreLime {
 
     /**
      *
-     */
+     *
     public static $line_breaker = "\n";
 
     /**
@@ -139,12 +141,12 @@ trait HypreLime {
 
     /**
      *
-     */
+     *
     public static $ht_format = '<%1$s%2$s>%3$s</%1$s>';
 
     /**
      *
-     */
+     *
     public static $emp_format = '<%1$s%2$s />';
 
     /**
@@ -154,11 +156,33 @@ trait HypreLime {
      */
     public static $b64svg_du_pref = 'data:image/svg+xml;base64,';
 
-    // Methods
+    /**
+     *
+     */
+    public static $ruled_desc = array(
+        'ul' => 'li',
+        'ol' => 'li',
+        'dl' => ['@'=>'div','dt','dd'],
+        'select' => ['optgroup','@'=>'option','hr'],
+    );
 
     /**
      *
      */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    // Methods
+
+    /**
+     *
+     *
     public static function _tribe($attributes) {
         $attr = '';
         foreach ($attributes as $key => $val) {
@@ -197,7 +221,7 @@ trait HypreLime {
      *    @param    $description    string|array
      *    @return    $pair    array    A flat array of Lemon objects - one dt and dd(s).
      *  @since  ver. 0.9.x (edit. Chic)
-     */
+     *
     public static function dlPair($term, $description) {
         $dt = new Lemon('dt', null, $term);
         $pair = array($dt);
@@ -214,7 +238,7 @@ trait HypreLime {
     /**
      *  @return wrapped $content with <pre><code> as PQueue object
      *  @since  ver. 0.10.2 (edit. Pierre)
-     */
+     *
     public static function _consolate(mixed $content, bool $dumpy = false): PQueue
     {
         // return new Lime('pre', new Lime('code', print_r($content, true)));
@@ -224,7 +248,7 @@ trait HypreLime {
     /**
      *
      *  @since  ver. 0.10.3 (edit. Pierre)
-     */
+     *
     public static function seed(string|int $key, mixed $val, string $tag = 'ul'): PQueue
     {
         $obj = false;
@@ -249,6 +273,26 @@ trait HypreLime {
     {
         return self::$b64svg_du_pref . base64_encode(file_get_contents($svg_file));
     }
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
 
     /**
      *

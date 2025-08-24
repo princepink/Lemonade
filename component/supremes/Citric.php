@@ -87,6 +87,29 @@ trait Citric
     /**
      *
      */
+    protected function fairContent(&$content): void
+    {
+        if (!array_key_exists($this->tag, Navel::$ruled_desc)) {
+            return;
+        }
+        $limits = Navel::$ruled_desc[$this->tag];
+        if ($content instanceof PQueue) {
+            if (is_array($limits)) {
+                if (in_array($content->tag, $limits)) {
+                    return;
+                }
+            } elseif ($content->tag == $limits) {
+                return;
+            }
+        }
+        $sub_tag = is_array($limits) ? $limits['@'] : $limits;
+        $content = new Lime($sub_tag, $content);
+        $content->attr('data-lmntcreate', __FUNCTION__);
+    }
+
+    /**
+     *
+     */
     public function addClass(string|array|callable $val_or_func): void
     {
         // map
