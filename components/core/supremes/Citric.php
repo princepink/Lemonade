@@ -33,6 +33,20 @@ trait Citric
     /**
      *
      */
+    public const ARRAY_AS_CONTENT = 0;
+    public const SPLIT_KEY_VAL = 1;
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
+
+    /**
+     *
+     */
     public const PAT_ALPH_FIRST = "/^[a-zA-Z]/";
 
     /**
@@ -59,6 +73,12 @@ trait Citric
     // Methods
 
     /**
+     *  ---------------------------
+     *  Setup methods
+     *  ---------------------------
+     */
+
+    /**
      *
      */
     protected function assignTag(string $tag): void
@@ -82,6 +102,10 @@ trait Citric
         if (!is_array($contents)) {
             $contents = [$contents];
         }
+        foreach ($contents as $key => $content) {
+            $this->fairContent($content);
+            $contents[$key] = $content;
+        }
     }
 
     /**
@@ -103,8 +127,78 @@ trait Citric
             }
         }
         $sub_tag = is_array($limits) ? $limits['@'] : $limits;
+        $method = "{$sub_tag}Fair";
         $content = new Lime($sub_tag, $content);
+        if (method_exists($this, $method)) {
+            $this->$method($content);
+        }
         $content->attr('data-lmntcreate', __FUNCTION__);
+    }
+
+    /**
+     *
+     */
+    protected function optionFair(PQueue $content) {
+        if ($content->hasAttr('value') || !isset($content[0]) || !(is_string($content[0]) || is_int($content[0]))) {
+            return;
+        }
+        $content->attr('value', $content[0]);
+    }
+
+    /**
+     *  ---------------------------
+     *  Editing methods
+     *  ---------------------------
+     */
+
+    /**
+     *  Operates contents
+     */
+    public function gratify(iterable $contents, int $mode_flag = null): void
+    {
+        $split = false;
+        $mode = $mode_flag ?? $this->mode_flag;
+
+
+
+        // if ($mode === self::SPLIT_KEY_VAL) {
+        //     $this->splitGratify($contents, $mode);
+        //     return;
+        // }
+
+
+
+        if ($mode === self::SPLIT_KEY_VAL) {
+            $method = $this->tag . 'Split';
+            if (method_exists($this, $method)) {
+                $split = true;
+            }
+        }
+
+        foreach ($contents as $key => $content) {
+            if ($split) {
+                $this->$method($content, $key);
+            }
+            if (is_string($key)) {
+                $this[$key] = $content;
+            } else {
+                $this[] = $content;
+            }
+        }
+        return;
+    }
+
+    /**
+     *
+     */
+    protected function selectSplit(mixed &$content, int|string $key)
+    {
+        if (!is_string($content) && !is_int($content)) {
+            return;
+        }
+        $raw = $content;
+        $content = new Lime('option', $raw);
+        $content->attr('value', $key);
     }
 
     /**
@@ -191,6 +285,12 @@ trait Citric
     }
 
     /**
+     *  ---------------------------
+     *  Outputting methods
+     *  ---------------------------
+     */
+
+    /**
      *
      *  @abstracted PQueue
      */
@@ -217,7 +317,16 @@ trait Citric
         // markup
         $markup = vsprintf($format, $values);
         // clean and fin
-        return str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $markup);
+        $search = array(
+            PHP_EOL . PHP_EOL,
+            '><',
+        );
+        $replace = array(
+            PHP_EOL,
+            '>' . PHP_EOL . '<',
+        );
+        // return str_replace(PHP_EOL . PHP_EOL, PHP_EOL, $markup);
+        return str_replace($search, $replace, $markup);
     }
 
     /**
@@ -315,3 +424,23 @@ trait Citric
 
 //[EOT]*/
 }
+
+/**
+ *  
+ */
+
+/**
+ *  
+ */
+
+/**
+ *  
+ */
+
+/**
+ *  ---------------------------
+ *  ---------------------------
+ *  ===========================
+ */
+
+//[EOF]*/

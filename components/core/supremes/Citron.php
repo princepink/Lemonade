@@ -50,12 +50,17 @@ abstract class Citron extends \ArrayObject implements PQueue, Generable
      */
     public Cidre $attribution;
 
+    /**
+     *
+     *
+    public int $mode_flag = self::ARRAY_AS_CONTENT;
+
     // Constructor
 
     /**
      *  A standard construction
      */
-    public function __construct(mixed $contents = [], string $tag = self::DEFTAG, array|string $classes = [], array $attrs = [])
+    public function __construct(mixed $contents = [], string $tag = self::DEFTAG, array|string $classes = [], array $attrs = [], public int $mode_flag = self::ARRAY_AS_CONTENT)
     {
         $this->assign();
         $this->assignTag($tag);

@@ -42,7 +42,15 @@ interface PQueue
      *
      *
     public function verify($tag);
-    public function gratify($contents, $overwrite);
+
+    /**
+     *  Operates contents
+     */
+    public function gratify(iterable $contents, int $mode_flag): void;
+
+    /**
+     *
+     *
     public function specify(array $attrs);
     public function identify($id);
     public function classify($classes, $overwrite);

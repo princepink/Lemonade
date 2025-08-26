@@ -41,7 +41,7 @@ abstract class Cascabela extends Citron
     /**
      *  A standard construction
      */
-    public function __construct(string $selector = parent::DEFTAG, $contents = [])
+    public function __construct(string $selector = parent::DEFTAG, $contents = [], public int $mode_flag = self::ARRAY_AS_CONTENT)
     {
         extract($this->cracker($selector));
         // static $i = 0;

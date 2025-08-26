@@ -71,15 +71,24 @@ class SensibleDateSelect extends Cascabela
         $contents = [];
         foreach ($this->genContents() as $suf => $tag) {
             $id = $this->arg('root_id') . "-$suf";
-            $method = 'build' . ucfirst($suf);
+            $t_method = __FUNCTION__ . ucfirst($tag);
+            $p_method = __FUNCTION__ . ucfirst($suf);
             $object = new Lime("$tag#$id");
-            if ($tag == 'select') {
-                $oplab = ucfirst($suf);
-                $object[] = new Lime('option[value]', "- $oplab -");
-            }
-            $this->{$method}($object);
-            $contents[$suf] = $object;
             $object->index = $suf;
+            if (method_exists($this, $t_method)) {
+                $this->$t_method($object);
+            }
+            if ($suf != $tag && method_exists($this, $p_method)) {
+                $this->$p_method($object);
+            }
+
+            // if ($tag == 'select') {
+            //     $oplab = ucfirst($suf);
+            //     $object[] = new Lime('option[value]', "- $oplab -");
+            // }
+
+            // $this->$method($object);
+            $contents[$suf] = $object;
         }
         return $contents;
 
@@ -123,6 +132,18 @@ class SensibleDateSelect extends Cascabela
     /**
      *
      */
+    protected function buildSelect(PQueue &$object)
+    {
+        $select = $object;
+        // $oplab = ucfirst($select->index);
+        $select[] = new Lime('option[value]', "-");
+        $object = new Lime('label', new Lime(contents: ucfirst($select->index)));
+        $object['select'] = $select;
+    }
+
+    /**
+     *
+     */
     protected function buildLegend(PQueue $object)
     {
         $object[] = $this->arg('legend');
@@ -134,6 +155,7 @@ class SensibleDateSelect extends Cascabela
     protected function buildDate(PQueue $object)
     {
         $object->attr('type', 'hidden');
+        $object->attr('name', $this->arg('date_name'));
     }
 
     /**
@@ -143,8 +165,9 @@ class SensibleDateSelect extends Cascabela
     {
         // $object[] = new Lime('option[value]', ucfirst($suffix));
         for ($d = 1; $d <= 31; $d++) {
-            $opt = new Lime("option[value=$d]", $d);
-            $object[] = $opt;
+            // $opt = new Lime("option[value=$d]", $d);
+            // $object[] = $opt;
+            $object['select'][] = $d;
         }
     }
 
@@ -160,8 +183,8 @@ class SensibleDateSelect extends Cascabela
         for ($y = $dt->format('Y'); $dt->format('Y') == $y; $dt->add($period)) {
             $m = $dt->format('m');
             $opt = new Lime("option[value=$m]", $dt->format('F'));
-            $opt->attr('lmnt-totaldays', $dt->format('t'));
-            $object[] = $opt;
+            $opt->attr('data-lmnt-totaldays', $dt->format('t'));
+            $object['select'][] = $opt;
         }
     }
 
@@ -171,15 +194,18 @@ class SensibleDateSelect extends Cascabela
     protected function buildYear(PQueue $object)
     {
         // $object[] = new Lime('option[value]', ucfirst($suffix));
+        $def = $object['select'][0];
+        unset($object['select'][0]);
+        $def->attr('selected', '');
         $dt = new \DateTime('today');
         $dur = $this->arg('duration');
         $y = (int) $dt->format('Y');
         for ($sy = $y - floor($dur / 2); $sy < $y + ceil($dur / 2); $sy++) {
-            $opt = new Lime("option[value=$sy]", $sy);
-            $object[] = $opt;
             if ($sy == $y) {
-                $opt->attr('selected', '');
+                $object['select'][] = $def;
             }
+            $opt = new Lime("option[value=$sy]", $sy);
+            $object['select'][] = $opt;
         }
     }
 
