@@ -46,6 +46,8 @@ class SensibleDateSelect extends Cascabela
         'use_legend' => true,
         'legend' => 'Select your special date.',
         'duration' => 25,
+        'min' => null,
+        'max' => null,
         'date_name' => 'selected_date',
     );
 
@@ -109,7 +111,7 @@ class SensibleDateSelect extends Cascabela
     {
         static $args;
         if (!isset($args)) {
-            $args = array_merge(self::$default_args, $this->args);
+            $args = array_merge(static::$default_args, $this->args);
         }
         return $args[$key];
     }

@@ -8,10 +8,12 @@ namespace Pearlpuppy\Lemonade;
  *  @update 2025-
  */
 
+use Pearlpuppy\Tailor;
+
 /**
  *
  */
-class Cidre extends \ArrayObject implements Generable
+class Cidre extends \ArrayObject implements Tailor\Generable
 {
 
 	// Mixins
@@ -19,7 +21,7 @@ class Cidre extends \ArrayObject implements Generable
     /**
      *
      */
-    use Genic;
+    use Tailor\Genic;
 
     // Constants
 

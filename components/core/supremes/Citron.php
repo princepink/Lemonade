@@ -8,10 +8,12 @@ namespace Pearlpuppy\Lemonade;
  *  @update 2025-
  */
 
+use Pearlpuppy\Tailor;
+
 /**
  *
  */
-abstract class Citron extends \ArrayObject implements PQueue, Generable
+abstract class Citron extends \ArrayObject implements PQueue, Tailor\Generable
 {
 
     // Mixins
@@ -19,7 +21,7 @@ abstract class Citron extends \ArrayObject implements PQueue, Generable
     /**
      *
      */
-    use Citric, Genic;
+    use Citric, Tailor\Genic;
 
     // Constants
 
